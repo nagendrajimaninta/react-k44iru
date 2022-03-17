@@ -1,28 +1,48 @@
 import React,{useState} from "react";
 import "./style.css";
-function Counter(props){
-  let statrtVal=0;
-  if(props.startFrom){
-     statrtVal = props.startFrom;
-  }
-  const [num,updateNum] = useState(statrtVal);
+function Cartitem(props){
+  const {title,qty,price} = props;
+     return (
+       <div style={{backgroundColor:"lightgreen" ,margin:'20px', display:"flex",justifyContent:"space-around"}}>
+         <img  src="https://via.placeholder.com/50" alt="Placeholder"/>
+         <p>{title}</p>
+         <input value={qty} disabled/>
+         <p>Total : {qty * price}</p>
+         <button>Remove</button>
+       </div>
+     );
+}
+function CartList(props){
+  const {items} = props;
   return (
-    <>
-    <h1>{num}</h1>
-    <button onClick={function(){
-      updateNum(num+1)
-    }}>Inc</button>
-    </>
+    <div>
+  {items.map(function(item){
+   const {name,qty,price} = item;
+   return <Cartitem key={name} title={name} qty={qty} price={price}/>
+  })}
+  </div>
+  );
+}
+function Cart(){
+  let db =[
+    {name:"pants" ,qty:4 ,price:750},
+    {name:"shirts" ,qty:5, price:50},
+    {name:"socks", qty:2, price:75},
+    {name:"belts", qty:2, price:700},
+  ];
+  return (
+    <div>
+      <CartList items={db}/>
+    </div>
   );
 }
 export default function App() {
-  return (
-    <div>
-      <h1>Counter Application</h1>
-      <p>Using Functional Component</p>
-      <Counter startFrom ={32}/>
-      <Counter  /><Counter  /><Counter  />
-      <Counter startFrom ={100}/>
-    </div>
-  );
+    return(
+      <div>
+        <h1>First Cart</h1>
+        <Cart />
+        <h1>Second Cart</h1>
+        <Cart />
+      </div>
+    );
 }
